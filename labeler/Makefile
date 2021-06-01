@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright (c) 2020 Intel Corporation
 
-VERSION ?= 1.1.0
+VERSION ?= 1.2.1
 IMG_VERSION := v$(VERSION)
-TLS_VERIFY ?= true
+TLS_VERIFY ?= false
 
 # Operator image registry
 IMAGE_REGISTRY ?= registry.connect.redhat.com/intel

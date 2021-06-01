@@ -17,7 +17,7 @@ ifneq ($(strip $(IMAGE_REGISTRY)),)
 override IMAGE_REGISTRY:=$(addsuffix /,$(IMAGE_REGISTRY))
 endif
 # tls verify flag for pushing images
-TLS_VERIFY ?= true
+TLS_VERIFY ?= false
 
 # Default bundle image tag
 BUNDLE_IMG ?= $(IMAGE_REGISTRY)sriov-fec-bundle:$(VERSION)

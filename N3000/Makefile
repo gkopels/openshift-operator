@@ -49,6 +49,7 @@ export N3000_DRIVER_IMAGE ?= $(N3000_DRIVER_CONTAINER_IMAGE)--$(KERNEL_VERSION)
 export N3000_DAEMON_IMAGE ?= $(IMAGE_REGISTRY)n3000-daemon:$(IMG_VERSION)--$(OPAE_VERSION)
 export N3000_LABELER_IMAGE ?= $(IMAGE_REGISTRY)n3000-labeler:$(IMG_VERSION)
 export N3000_MONITORING_IMAGE ?= $(IMAGE_REGISTRY)n3000-monitoring:$(IMG_VERSION)--$(OPAE_VERSION)
+export N3000_SUBSCRIPTION="--creds=gkopels@redhat.com:Mika@ellie1948 --cgroup-manager=cgroupfs"
 
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true,preserveUnknownFields=false"
@@ -152,7 +153,7 @@ image-opae:
 image-n3000-driver: image-opae
 	cp -r files docker/driver-container
 	cp ../LICENSE docker/driver-container/TEMP_LICENSE_COPY
-	cd docker/driver-container && podman build . -t $(N3000_DRIVER_IMAGE) --build-arg=VERSION=$(IMG_VERSION) --build-arg=OPAE_VERSION=$(OPAE_VERSION) --build-arg=KERNEL_VERSION=$(KERNEL_VERSION) --build-arg=KERNEL_SOURCE=$(KERNEL_SOURCE)
+	cd docker/driver-container && podman build . -t $(N3000_DRIVER_IMAGE) --build-arg=VERSION=$(IMG_VERSION) --build-arg=OPAE_VERSION=$(OPAE_VERSION) --build-arg=KERNEL_VERSION=$(KERNEL_VERSION) --build-arg=KERNEL_SOURCE=$(KERNEL_SOURCE) --creds=gkopels@redhat.com:Mika@ellie1948 --cgroup-manager=cgroupfs
 
 .PHONY: push-n3000-driver
 push-n3000-driver:
@@ -162,7 +163,7 @@ push-n3000-driver:
 .PHONY: image-n3000-daemon
 image-n3000-daemon: image-opae
 	cp ../LICENSE TEMP_LICENSE_COPY
-	podman build . -f Dockerfile.daemon -t $(N3000_DAEMON_IMAGE) --build-arg=VERSION=$(IMG_VERSION) --build-arg=OPAE_VERSION=$(OPAE_VERSION)
+	podman build . -f Dockerfile.daemon -t $(N3000_DAEMON_IMAGE) --build-arg=VERSION=$(IMG_VERSION) --build-arg=OPAE_VERSION=$(OPAE_VERSION) --creds=gkopels@redhat.com:Mika@ellie1948 --cgroup-manager=cgroupfs
 
 .PHONY: push-n3000-daemon
 push-n3000-daemon:
@@ -172,7 +173,7 @@ push-n3000-daemon:
 .PHONY: image-n3000-operator
 image-n3000-operator:
 	cp ../LICENSE TEMP_LICENSE_COPY
-	podman build . -t $(N3000_OPERATOR_IMAGE) --build-arg=VERSION=$(IMG_VERSION)
+	podman build . -t $(N3000_OPERATOR_IMAGE) --build-arg=VERSION=$(IMG_VERSION) --creds=gkopels@redhat.com:Mika@ellie1948 --cgroup-manager=cgroupfs
 
 .PHONY: push-n3000-operator
 push-n3000-operator:
